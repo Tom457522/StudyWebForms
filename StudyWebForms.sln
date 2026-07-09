@@ -1,0 +1,18 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StudyWebForms", "StudyWebForms", "{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
