@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", "Yu Gothic", sans-serif;
+    background: #f6f8fa;
+    color: #24292f;
+}
+
+.site-header {
+    background: #0f172a;
+    color: white;
+    padding: 24px 32px;
+}
+
+.site-header h1 {
+    margin: 0 0 8px;
+}
+
+.site-header p {
+    margin: 0;
+    opacity: .85;
+}
+
+.chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 24px;
+    background: white;
+    border-bottom: 1px solid #d0d7de;
+}
+
+.chapter-nav a {
+    text-decoration: none;
+    color: #0969da;
+    border: 1px solid #d0d7de;
+    border-radius: 999px;
+    padding: 6px 12px;
+    background: #fff;
+}
+
+.container {
+    max-width: 1080px;
+    margin: 24px auto;
+    padding: 0 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #d0d7de;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 2px rgba(27,31,36,.04);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.demo-box {
+    border-left: 4px solid #0969da;
+    padding: 12px 16px;
+    background: #ddf4ff;
+    margin: 12px 0;
+}
+
+.code-note {
+    font-family: Consolas, monospace;
+    background: #f6f8fa;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.button {
+    margin: 4px 0;
+}
+
+.site-footer {
+    padding: 16px 32px;
+    color: #57606a;
+    border-top: 1px solid #d0d7de;
+    background: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #d0d7de;
+    padding: 8px;
+}
+
+th {
+    background: #f6f8fa;
+}
