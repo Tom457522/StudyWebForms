@@ -1,4 +1,4 @@
-<%@ Page Title="01 Lifecycle" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="01_Lifecycle.aspx.cs" Inherits="StudyWebForms.Chapters._01_Lifecycle" %>
+<%@ Page Title="01 Lifecycle" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="01_Lifecycle.aspx.cs" Inherits="StudyWebForms.Chapters._01_Lifecycle" %>
 
 <asp:Content ID="Title" ContentPlaceHolderID="TitleContent" runat="server">01 Lifecycle</asp:Content>
 
