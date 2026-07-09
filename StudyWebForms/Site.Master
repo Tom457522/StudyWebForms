@@ -1,0 +1,38 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="StudyWebForms.SiteMaster" %>
+<!DOCTYPE html>
+<html lang="ja">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><asp:ContentPlaceHolder ID="TitleContent" runat="server" /> - StudyWebForms</title>
+    <link rel="stylesheet" href="<%= ResolveUrl("~/Content/site.css") %>" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <header class="site-header">
+            <h1>StudyWebForms</h1>
+            <p>ASP.NET Web Forms の仕組みを章ごとに理解する講義用アプリ</p>
+        </header>
+
+        <nav class="chapter-nav">
+            <a href="<%= ResolveUrl("~/Default.aspx") %>">Home</a>
+            <a href="<%= ResolveUrl("~/Chapters/01_Lifecycle.aspx") %>">01 Lifecycle</a>
+            <a href="<%= ResolveUrl("~/Chapters/02_ServerControls.aspx") %>">02 Controls</a>
+            <a href="<%= ResolveUrl("~/Chapters/03_PostBack.aspx") %>">03 PostBack</a>
+            <a href="<%= ResolveUrl("~/Chapters/04_ViewState.aspx") %>">04 ViewState</a>
+            <a href="<%= ResolveUrl("~/Chapters/05_StateManagement.aspx") %>">05 State</a>
+            <a href="<%= ResolveUrl("~/Chapters/06_Validation.aspx") %>">06 Validation</a>
+            <a href="<%= ResolveUrl("~/Chapters/07_DataBinding.aspx") %>">07 Data</a>
+            <a href="<%= ResolveUrl("~/Chapters/08_IIS_SQLServer.aspx") %>">08 IIS/SQL</a>
+        </nav>
+
+        <main class="container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </main>
+
+        <footer class="site-footer">
+            <asp:Label ID="FooterInfoLabel" runat="server" />
+        </footer>
+    </form>
+</body>
+</html>
