@@ -1,1 +1,1 @@
-<%@ Application Language="C#" CodeBehind="Global.asax.cs" Inherits="StudyWebForms.Global" %>
+<%@ Application Language="C#" CodeFile="Global.asax.cs" Inherits="StudyWebForms.Global" %>
