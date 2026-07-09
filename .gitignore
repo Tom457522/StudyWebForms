@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+bin/
+obj/
+
+# Build output
+[Bb]in/
+[Oo]bj/
+
+# IIS Express
+.vs/config/applicationhost.config
+
+# Logs
+*.log
+
+# SQL Server LocalDB
+*.mdf
+*.ldf
