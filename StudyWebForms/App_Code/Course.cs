@@ -1,4 +1,4 @@
-namespace StudyWebForms
+﻿namespace StudyWebForms
 {
     public class Course
     {

@@ -1,4 +1,4 @@
-<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.Master.cs" Inherits="StudyWebForms.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.Master.cs" Inherits="StudyWebForms.SiteMaster" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head runat="server">
@@ -15,14 +15,14 @@
         </header>
 
         <nav class="chapter-nav">
-            <a href="<%= ResolveUrl("~/Default.aspx") %>">Home</a>
-            <a href="<%= ResolveUrl("~/Chapters/01_Lifecycle.aspx") %>">01 Lifecycle</a>
-            <a href="<%= ResolveUrl("~/Chapters/02_ServerControls.aspx") %>">02 Controls</a>
-            <a href="<%= ResolveUrl("~/Chapters/03_PostBack.aspx") %>">03 PostBack</a>
-            <a href="<%= ResolveUrl("~/Chapters/04_ViewState.aspx") %>">04 ViewState</a>
-            <a href="<%= ResolveUrl("~/Chapters/05_StateManagement.aspx") %>">05 State</a>
-            <a href="<%= ResolveUrl("~/Chapters/06_Validation.aspx") %>">06 Validation</a>
-            <a href="<%= ResolveUrl("~/Chapters/07_DataBinding.aspx") %>">07 Data</a>
+            <a href="<%= ResolveUrl("~/Default.aspx") %>">ホーム</a>
+            <a href="<%= ResolveUrl("~/Chapters/01_Lifecycle.aspx") %>">01 ライフサイクル</a>
+            <a href="<%= ResolveUrl("~/Chapters/02_ServerControls.aspx") %>">02 サーバーコントロール</a>
+            <a href="<%= ResolveUrl("~/Chapters/03_PostBack.aspx") %>">03 ポストバック</a>
+            <a href="<%= ResolveUrl("~/Chapters/04_ViewState.aspx") %>">04 ビューステート</a>
+            <a href="<%= ResolveUrl("~/Chapters/05_StateManagement.aspx") %>">05 状態管理</a>
+            <a href="<%= ResolveUrl("~/Chapters/06_Validation.aspx") %>">06 入力検証</a>
+            <a href="<%= ResolveUrl("~/Chapters/07_DataBinding.aspx") %>">07 データバインド</a>
             <a href="<%= ResolveUrl("~/Chapters/08_IIS_SQLServer.aspx") %>">08 IIS/SQL</a>
         </nav>
 

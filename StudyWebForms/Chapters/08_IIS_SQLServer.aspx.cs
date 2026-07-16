@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Configuration;
 using System.Web;
 
@@ -21,13 +21,14 @@ namespace StudyWebForms.Chapters
 
         private void RenderInfo()
         {
-            var connection = ConfigurationManager.ConnectionStrings["StudyDb"]?.ConnectionString ?? "未設定";
-            InfoLiteral.Text =
-                $"<strong>MachineName:</strong> {Server.HtmlEncode(Environment.MachineName)}<br />" +
-                $"<strong>Application Path:</strong> {Server.HtmlEncode(HttpRuntime.AppDomainAppPath)}<br />" +
-                $"<strong>AppDomain:</strong> {Server.HtmlEncode(AppDomain.CurrentDomain.FriendlyName)}<br />" +
-                $"<strong>Session Mode:</strong> InProc<br />" +
-                $"<strong>StudyDb ConnectionString:</strong> {Server.HtmlEncode(connection)}";
+            var setting = ConfigurationManager.ConnectionStrings["StudyDb"];
+            var connection = setting != null ? setting.ConnectionString : "未設定";
+            InfoLiteral.Text = string.Format(
+                "<strong>マシン名 (MachineName):</strong> {0}<br /><strong>アプリケーションパス:</strong> {1}<br /><strong>AppDomain:</strong> {2}<br /><strong>セッションモード:</strong> InProc<br /><strong>StudyDb 接続文字列:</strong> {3}",
+                Server.HtmlEncode(Environment.MachineName),
+                Server.HtmlEncode(HttpRuntime.AppDomainAppPath),
+                Server.HtmlEncode(AppDomain.CurrentDomain.FriendlyName),
+                Server.HtmlEncode(connection));
         }
     }
 }

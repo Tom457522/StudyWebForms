@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms.Chapters
 {
@@ -27,7 +27,7 @@ namespace StudyWebForms.Chapters
 
         private void RenderCount()
         {
-            CountLabel.Text = $"IsPostBack={IsPostBack} / Count={ViewState["Count"]}";
+            CountLabel.Text = string.Format("IsPostBack={0} / Count={1}", IsPostBack, ViewState["Count"]);
         }
     }
 }

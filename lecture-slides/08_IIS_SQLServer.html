@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第8章 IIS / SQL Server</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background-color: #ffffff; --section-divider-bg: #ffffff;
+  --heading-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --body-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --base-font-size: 32px; --text-size: 18pt; --h1-size: 48pt; --h2-size: 34pt; --h3-size: 22pt; --footnote-size: 11pt;
+  --primary-color: #5EA8A7; --secondary-color: #277884; --accent-color: #FE4447;
+  --text-color: #222; --muted-color: #666; --line-color: #333;
+  --slide-padding: 60px; --slide-padding-top: 40px; --content-gap: 24px; --box-radius: 8px;
+}
+.reveal { font-family: var(--body-font); font-size: var(--base-font-size); }
+.reveal strong, .reveal b { font-weight: bold; }
+.reveal-viewport { background-color: var(--background-color); }
+.reveal-viewport.is-section-divider .slide-background.present { background-color: var(--section-divider-bg) !important; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: var(--heading-font); color: var(--text-color); font-weight: 600; line-height: 1.2; }
+.reveal h1 { font-size: var(--h1-size); } .reveal h2 { font-size: var(--h2-size); margin-bottom: 0; } .reveal h3 { font-size: var(--h3-size); }
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal blockquote { font-size: var(--text-size); color: var(--text-color); line-height: 1.5; }
+.reveal .slides section::after { content: 'CONFIDENTIAL'; position: absolute; top: 12px; right: 20px; font-size: 10pt; font-weight: 700; color: #D32F2F; letter-spacing: 0.05em; pointer-events: none; z-index: 100; }
+.reveal ul { list-style: none; padding-left: 0; margin: 12px 0; }
+.reveal ul li { position: relative; padding-left: 25px; margin-bottom: 8px; }
+.reveal ul li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; background: var(--text-color); border-radius: 50%; }
+.reveal ul ul li::before { background: var(--muted-color); width: 6px; height: 6px; }
+.reveal blockquote p { font-size: inherit; }
+.reveal .slides section { height: 100%; display: flex !important; flex-direction: column !important; padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important; box-sizing: border-box; text-align: left; }
+.reveal .slides section > .content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: var(--content-gap); text-align: left; }
+.reveal .slides section.section-divider { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; text-align: center; }
+.reveal .slides section.section-divider h1 { font-size: 54pt; text-align: center; }
+.reveal .slides section.section-divider p { font-size: 20pt; color: var(--muted-color); }
+.reveal .slides section.section-divider .chapter-badge { font-size: 16pt; color: var(--secondary-color); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 20px; }
+.text-lg { font-size: 20pt !important; } .text-xl { font-size: 22pt !important; } .text-2xl { font-size: 26pt !important; }
+.text-muted { color: var(--muted-color) !important; }
+.reveal blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 16px 0; font-style: italic; background: none; box-shadow: none; width: 100%; max-width: none; }
+.card { background: #F4F9F9; border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 20px 24px; }
+.card h3, .card h4 { margin-top: 0; color: var(--secondary-color); }
+.card-accent { border-left: 5px solid var(--accent-color); background: #FFF4F3; }
+.card-primary { border-left: 5px solid var(--primary-color); }
+.flow-v { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.flow-v .step { background: var(--secondary-color); color: #fff; border-radius: 6px; padding: 10px 24px; font-weight: 600; font-size: 17pt; text-align: center; min-width: 320px; }
+.flow-v .step.accent { background: var(--accent-color); }
+.flow-v .step.light { background: var(--primary-color); }
+.flow-v .arrow-v { color: var(--muted-color); font-size: 18pt; }
+.pill { display: inline-block; background: var(--primary-color); color: #fff; border-radius: 999px; padding: 3px 14px; font-size: 14pt; font-weight: 600; margin-right: 8px; }
+table.simple { border-collapse: collapse; width: 100%; }
+table.simple th, table.simple td { border: 1px solid #DCEBEB; padding: 8px 12px; font-size: 16pt; text-align: left; }
+table.simple th { background: var(--secondary-color); color: #fff; }
+table.simple tr:nth-child(even) { background: #F4F9F9; }
+pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: border-box !important; }
+.reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: 1 !important; }
+.reveal pre code, .reveal .hljs { color: #ffffff !important; }
+.reveal .hljs td { color: #ffffff !important; }
+.reveal .content pre + p, .reveal .content pre + div { margin-top: 20px; }
+.reveal .hljs-ln { table-layout: fixed; width: 100%; }
+.reveal .hljs-ln-numbers { width: 2.4em; }
+.reveal .hljs-ln-code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
+.footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
+.recap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.recap-grid .ritem { border: 1px solid #DCEBEB; border-radius: 6px; padding: 10px 16px; font-size: 15pt; }
+.recap-grid .ritem strong { color: var(--secondary-color); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section id="divider-title" class="section-divider" data-state="is-section-divider">
+        <div class="chapter-badge">STUDY WEB FORMS &nbsp;|&nbsp; 第8章(最終章) / 全8章</div>
+        <h1>IIS / アプリケーションプール / SQL Server</h1>
+        <p>すべての仕組みが動いている「土台」を見る</p>
+      </section>
+
+      <section id="goals">
+        <h2><i class="fa-solid fa-flag-checkered"></i> 本日のゴール</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>Web Forms アプリが IIS / アプリケーションプール(w3wp.exe)上で動作していることを説明できる</li>
+            <li>これまで見てきた ViewState / Session / DB接続がこの構成の上で動いていることを理解する</li>
+            <li>Web.config の接続文字列がコードからどう読み取られるかを説明できる</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="recap">
+        <h2><i class="fa-solid fa-rotate-left"></i> 全章の振り返り</h2>
+        <div class="content">
+          <div class="recap-grid">
+            <div class="ritem"><strong>第1章</strong> Page は毎回作り直される</div>
+            <div class="ritem"><strong>第2章</strong> コントロールは最終的にHTML</div>
+            <div class="ritem"><strong>第3章</strong> PostBack で同じ画面に再送信</div>
+            <div class="ritem"><strong>第4章</strong> ViewState はクライアント保存</div>
+            <div class="ritem"><strong>第5章</strong> Session/Applicationは共有範囲が違う</div>
+            <div class="ritem"><strong>第6章</strong> Validatorとサーバー側の最終確認</div>
+            <div class="ritem"><strong>第7章</strong> GridViewとRepositoryパターン</div>
+          </div>
+          <p class="text-lg" style="margin-top: 16px;">これら全部が、実は<strong>1つのプロセス(w3wp.exe)</strong>の中で動いています。</p>
+        </div>
+      </section>
+
+      <section id="architecture">
+        <h2><i class="fa-solid fa-server"></i> 構成イメージ</h2>
+        <div class="content">
+          <div class="flow-v">
+            <div class="step">クライアント(ブラウザ)</div>
+            <div class="arrow-v">↓ HTTP リクエスト</div>
+            <div class="step">IIS サイト</div>
+            <div class="arrow-v">↓ アプリケーションプール / w3wp.exe</div>
+            <div class="step accent">ASP.NET Web Forms ページ</div>
+            <div class="arrow-v">↓ connectionStrings</div>
+            <div class="step light">SQL Server</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="code">
+        <h2><i class="fa-solid fa-code"></i> コードで確認</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">08_IIS_SQLServer.aspx.cs</span></p>
+          <pre><code class="language-csharp" data-line-numbers>var setting = ConfigurationManager.ConnectionStrings["StudyDb"];
+var connection = setting != null ? setting.ConnectionString : "未設定";
+
+Environment.MachineName          // 実行マシン名
+HttpRuntime.AppDomainAppPath      // IIS上の物理フォルダ
+AppDomain.CurrentDomain.FriendlyName  // AppDomain名</code></pre>
+          <p class="text-lg">接続文字列は <code>Web.config</code> の <code>&lt;connectionStrings&gt;</code> に定義 → <code>ConfigurationManager</code> 経由で読み取る</p>
+        </div>
+      </section>
+
+      <section id="demo">
+        <h2><i class="fa-solid fa-display"></i> デモ・確認するポイント</h2>
+        <div class="content">
+          <table class="simple">
+            <tr><th>どこを見る</th><th>何が分かるか</th></tr>
+            <tr><td>MachineName の表示</td><td>実際にどのマシン上のプロセスで実行されているか</td></tr>
+            <tr><td>Application Path</td><td>IIS Manager の「物理パス」と一致すること</td></tr>
+            <tr><td>AppDomain</td><td>1つの w3wp.exe 内で、サイトごとに AppDomain が分かれていること</td></tr>
+            <tr><td>StudyDb 接続文字列</td><td>Web.config の設定がコードから読み取れること</td></tr>
+            <tr><td>IIS Manager のアプリケーションプール</td><td>.NET CLR バージョン・実行アカウント・リサイクル設定</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="pitfalls">
+        <h2><i class="fa-solid fa-triangle-exclamation"></i> 講義ポイント・注意点</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>IIS サイトは<strong>URLと物理フォルダ</strong>を対応付ける</li>
+            <li>アプリケーションプールは実行プロセス・.NET CLRバージョン・実行アカウント・リサイクル設定に関係する</li>
+            <li>1つのアプリケーションプールで問題が起きても、別プールのサイトには影響しない(プロセス分離)</li>
+            <li>本番環境では接続文字列・実行権限・ログ・エラー表示の扱いを開発環境と分ける</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2><i class="fa-solid fa-check-double"></i> まとめ:全8章を通して</h2>
+        <div class="content">
+          <blockquote>Web Forms は「古い技術」ではなく、Page ライフサイクル・状態管理・検証・データバインドという明確なモデルを持つフレームワーク。その全てが IIS / アプリケーションプール / SQL Server という現実のインフラの上で動いている。</blockquote>
+          <p class="text-lg">現場の既存システムを読むときは、「今どのイベントが動いているか」「状態はどこに保存されているか」「どのプロセス上で動いているか」の3点を意識すると理解が早まります。</p>
+        </div>
+        <div class="footer-tag">StudyWebForms — Chapter 08 / 08(最終章)</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280, height: 720, margin: 0,
+      controls: true, progress: true, slideNumber: 'c/t', hash: true,
+      transition: 'slide', center: false,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>

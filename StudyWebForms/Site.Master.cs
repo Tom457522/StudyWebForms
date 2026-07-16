@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms
 {
@@ -6,7 +6,7 @@ namespace StudyWebForms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            FooterInfoLabel.Text = $"Server time: {DateTime.Now:yyyy/MM/dd HH:mm:ss} / IsPostBack: {Page.IsPostBack}";
+            FooterInfoLabel.Text = string.Format("サーバー時刻: {0:yyyy/MM/dd HH:mm:ss} ／ IsPostBack: {1}", DateTime.Now, Page.IsPostBack);
         }
     }
 }

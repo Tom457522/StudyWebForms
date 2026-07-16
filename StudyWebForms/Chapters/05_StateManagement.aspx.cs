@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms.Chapters
 {
@@ -17,17 +17,18 @@ namespace StudyWebForms.Chapters
 
         protected void AddCacheButton_Click(object sender, EventArgs e)
         {
-            Cache.Insert("CachedMessage", $"Cache に保存しました: {DateTime.Now:HH:mm:ss}", null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
+            Cache.Insert("CachedMessage", string.Format("Cache に保存しました: {0:HH:mm:ss}", DateTime.Now), null, DateTime.Now.AddMinutes(5), TimeSpan.Zero);
             RenderState();
         }
 
         private void RenderState()
         {
-            StateLabel.Text =
-                $"Session[Counter]={Session["Counter"] ?? 0}<br />" +
-                $"Application[StartedAt]={Application["StartedAt"]}<br />" +
-                $"Application[TotalRequests]={Application["TotalRequests"]}<br />" +
-                $"Cache[CachedMessage]={Cache["CachedMessage"] ?? "未設定"}";
+            StateLabel.Text = string.Format(
+                "Session[Counter]={0}<br />Application[StartedAt]={1}<br />Application[TotalRequests]={2}<br />Cache[CachedMessage]={3}",
+                Session["Counter"] ?? 0,
+                Application["StartedAt"],
+                Application["TotalRequests"],
+                Cache["CachedMessage"] ?? "未設定");
         }
     }
 }

@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Web;
 
 namespace StudyWebForms
 {
-    public class Global : HttpApplication
+    public partial class Global : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {

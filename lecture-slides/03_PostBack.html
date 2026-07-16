@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第3章 PostBack とイベント処理</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background-color: #ffffff; --section-divider-bg: #ffffff;
+  --heading-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --body-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --base-font-size: 32px; --text-size: 18pt; --h1-size: 48pt; --h2-size: 34pt; --h3-size: 22pt; --footnote-size: 11pt;
+  --primary-color: #5EA8A7; --secondary-color: #277884; --accent-color: #FE4447;
+  --text-color: #222; --muted-color: #666; --line-color: #333;
+  --slide-padding: 60px; --slide-padding-top: 40px; --content-gap: 24px; --box-radius: 8px;
+}
+.reveal { font-family: var(--body-font); font-size: var(--base-font-size); }
+.reveal strong, .reveal b { font-weight: bold; }
+.reveal-viewport { background-color: var(--background-color); }
+.reveal-viewport.is-section-divider .slide-background.present { background-color: var(--section-divider-bg) !important; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: var(--heading-font); color: var(--text-color); font-weight: 600; line-height: 1.2; }
+.reveal h1 { font-size: var(--h1-size); } .reveal h2 { font-size: var(--h2-size); margin-bottom: 0; } .reveal h3 { font-size: var(--h3-size); }
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal blockquote { font-size: var(--text-size); color: var(--text-color); line-height: 1.5; }
+.reveal .slides section::after { content: 'CONFIDENTIAL'; position: absolute; top: 12px; right: 20px; font-size: 10pt; font-weight: 700; color: #D32F2F; letter-spacing: 0.05em; pointer-events: none; z-index: 100; }
+.reveal ul { list-style: none; padding-left: 0; margin: 12px 0; }
+.reveal ul li { position: relative; padding-left: 25px; margin-bottom: 8px; }
+.reveal ul li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; background: var(--text-color); border-radius: 50%; }
+.reveal ul ul li::before { background: var(--muted-color); width: 6px; height: 6px; }
+.reveal blockquote p { font-size: inherit; }
+.reveal .slides section { height: 100%; display: flex !important; flex-direction: column !important; padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important; box-sizing: border-box; text-align: left; }
+.reveal .slides section > .content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: var(--content-gap); text-align: left; }
+.reveal .slides section.section-divider { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; text-align: center; }
+.reveal .slides section.section-divider h1 { font-size: 54pt; text-align: center; }
+.reveal .slides section.section-divider p { font-size: 20pt; color: var(--muted-color); }
+.reveal .slides section.section-divider .chapter-badge { font-size: 16pt; color: var(--secondary-color); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 20px; }
+.text-lg { font-size: 20pt !important; } .text-xl { font-size: 22pt !important; } .text-2xl { font-size: 26pt !important; }
+.text-muted { color: var(--muted-color) !important; }
+.reveal blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 16px 0; font-style: italic; background: none; box-shadow: none; width: 100%; max-width: none; }
+.card { background: #F4F9F9; border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 20px 24px; }
+.card h3, .card h4 { margin-top: 0; color: var(--secondary-color); }
+.card-accent { border-left: 5px solid var(--accent-color); background: #FFF4F3; }
+.card-primary { border-left: 5px solid var(--primary-color); }
+.flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.flow .step { background: var(--secondary-color); color: #fff; border-radius: 6px; padding: 10px 18px; font-weight: 600; font-size: 18pt; white-space: nowrap; }
+.flow .step.event { background: var(--accent-color); }
+.flow .arrow { color: var(--muted-color); font-size: 18pt; }
+.pill { display: inline-block; background: var(--primary-color); color: #fff; border-radius: 999px; padding: 3px 14px; font-size: 14pt; font-weight: 600; margin-right: 8px; }
+table.simple { border-collapse: collapse; width: 100%; }
+table.simple th, table.simple td { border: 1px solid #DCEBEB; padding: 8px 12px; font-size: 16pt; text-align: left; }
+table.simple th { background: var(--secondary-color); color: #fff; }
+table.simple tr:nth-child(even) { background: #F4F9F9; }
+pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: border-box !important; }
+.reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: 1 !important; }
+.reveal pre code, .reveal .hljs { color: #ffffff !important; }
+.reveal .hljs td { color: #ffffff !important; }
+.reveal .content pre + p, .reveal .content pre + div { margin-top: 20px; }
+.reveal .hljs-ln { table-layout: fixed; width: 100%; }
+.reveal .hljs-ln-numbers { width: 2.4em; }
+.reveal .hljs-ln-code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
+.footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section id="divider-title" class="section-divider" data-state="is-section-divider">
+        <div class="chapter-badge">STUDY WEB FORMS &nbsp;|&nbsp; 第3章 / 全8章</div>
+        <h1>PostBack とイベント処理</h1>
+        <p>「同じページへの再送信」が起きている</p>
+      </section>
+
+      <section id="goals">
+        <h2><i class="fa-solid fa-flag-checkered"></i> 本日のゴール</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>ボタン押下が「同じURLへのフォーム再送信(PostBack)」であることを説明できる</li>
+            <li><code>IsPostBack</code> を使って「初回表示」と「PostBack後」を分岐できる</li>
+            <li>マークアップの <code>OnClick</code> とコードビハインドのメソッドの対応関係を説明できる</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="recap">
+        <h2><i class="fa-solid fa-rotate-left"></i> 前章までの振り返り</h2>
+        <div class="content">
+          <blockquote>第1章:Page は毎リクエストで作り直される / 第2章:コントロールは最終的にただの HTML</blockquote>
+          <p class="text-lg">では「ボタンを押す」という操作は、裏側で何をトリガーしているのか? — それが PostBack です。</p>
+        </div>
+      </section>
+
+      <section id="concept">
+        <h2><i class="fa-solid fa-arrows-spin"></i> PostBack とは何か</h2>
+        <div class="content">
+          <div class="flow" style="justify-content: center; margin: 20px 0;">
+            <div class="step">同じ画面</div>
+            <div class="arrow">→</div>
+            <div class="step event">フォーム送信(同じURL)</div>
+            <div class="arrow">→</div>
+            <div class="step">サーバーで処理</div>
+            <div class="arrow">→</div>
+            <div class="step">同じ画面を再生成</div>
+          </div>
+          <ul class="text-lg">
+            <li>ブラウザは<strong>別ページに遷移しない</strong> — 同じ URL にフォーム全体を再送信する</li>
+            <li>ページ内のどのボタンを押しても、一度ページ全体がサーバーに送信される</li>
+            <li>この再送信であることを判定するプロパティが <code>Page.IsPostBack</code></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="code-loadpattern">
+        <h2><i class="fa-solid fa-code"></i> コードで確認①:IsPostBack 分岐</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">03_PostBack.aspx.cs</span></p>
+          <pre><code class="language-csharp" data-line-numbers>protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        ViewState["Count"] = 0;
+    }
+    RenderCount();
+}</code></pre>
+          <p class="text-lg" style="margin-top: 12px;">初回表示のときだけ 0 に初期化し、それ以外(PostBack)では前回値をそのまま使う — この <code>if (!IsPostBack)</code> パターンは第7章・第8章でも再登場します。</p>
+        </div>
+      </section>
+
+      <section id="code-events">
+        <h2><i class="fa-solid fa-code"></i> コードで確認②:イベントハンドラ</h2>
+        <div class="content">
+          <pre><code class="language-csharp" data-line-numbers>protected void CountButton_Click(object sender, EventArgs e)
+{
+    ViewState["Count"] = ((int)ViewState["Count"]) + 1;
+    RenderCount();
+}
+
+protected void ResetButton_Click(object sender, EventArgs e)
+{
+    ViewState["Count"] = 0;
+    RenderCount();
+}</code></pre>
+          <p class="text-lg">マークアップ側:<code>&lt;asp:Button OnClick="CountButton_Click" /&gt;</code> という対応付け</p>
+        </div>
+      </section>
+
+      <section id="demo">
+        <h2><i class="fa-solid fa-display"></i> デモで確認するポイント</h2>
+        <div class="content">
+          <table class="simple">
+            <tr><th>いつ</th><th>どこを見る</th><th>何が分かるか</th></tr>
+            <tr><td>初回表示</td><td>ラベルの表示</td><td><code>IsPostBack=False / Count=0</code></td></tr>
+            <tr><td>「カウントを増やす」押下後</td><td>ラベルの表示</td><td><code>IsPostBack=True</code> になり、Count が加算される</td></tr>
+            <tr><td>ボタンを押している間</td><td>ブラウザのアドレスバー</td><td>URL が変化しない(遷移ではなく再送信)</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="pitfalls">
+        <h2><i class="fa-solid fa-triangle-exclamation"></i> よくある誤解・注意点</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>「ボタンごとに専用のURLがある」わけではない → 全ボタンが同じ URL への PostBack</li>
+            <li><code>if (!IsPostBack)</code> を書き忘れると、ボタンを押すたびに初期化処理が実行されてしまう</li>
+            <li>Count の保持には ViewState を使っている(第4章で詳しく扱う)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2><i class="fa-solid fa-check-double"></i> まとめ</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>PostBack = 同じ URL への フォーム再送信</li>
+            <li><code>IsPostBack</code> で「初回表示」か「PostBack後」かを判定する</li>
+            <li><code>if (!IsPostBack) { 初期化 }</code> は頻出パターン</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2><i class="fa-solid fa-arrow-right"></i> 次回予告</h2>
+        <div class="content">
+          <div class="card card-primary">
+            <h4>第4章:ViewState</h4>
+            <p class="text-lg">Count の値がどうやって PostBack をまたいで保持されているのか、その実体である <code>__VIEWSTATE</code> を実際に見てみます。</p>
+          </div>
+        </div>
+        <div class="footer-tag">StudyWebForms — Chapter 03 / 08</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280, height: 720, margin: 0,
+      controls: true, progress: true, slideNumber: 'c/t', hash: true,
+      transition: 'slide', center: false,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>

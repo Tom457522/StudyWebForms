@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第2章 サーバーコントロール</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background-color: #ffffff; --section-divider-bg: #ffffff;
+  --heading-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --body-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --base-font-size: 32px; --text-size: 18pt; --h1-size: 48pt; --h2-size: 34pt; --h3-size: 22pt; --footnote-size: 11pt;
+  --primary-color: #5EA8A7; --secondary-color: #277884; --accent-color: #FE4447;
+  --text-color: #222; --muted-color: #666; --line-color: #333;
+  --slide-padding: 60px; --slide-padding-top: 40px; --content-gap: 24px; --box-radius: 8px;
+}
+.reveal { font-family: var(--body-font); font-size: var(--base-font-size); }
+.reveal strong, .reveal b { font-weight: bold; }
+.reveal-viewport { background-color: var(--background-color); }
+.reveal-viewport.is-section-divider .slide-background.present { background-color: var(--section-divider-bg) !important; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: var(--heading-font); color: var(--text-color); font-weight: 600; line-height: 1.2; }
+.reveal h1 { font-size: var(--h1-size); } .reveal h2 { font-size: var(--h2-size); margin-bottom: 0; } .reveal h3 { font-size: var(--h3-size); }
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal blockquote { font-size: var(--text-size); color: var(--text-color); line-height: 1.5; }
+.reveal .slides section::after { content: 'CONFIDENTIAL'; position: absolute; top: 12px; right: 20px; font-size: 10pt; font-weight: 700; color: #D32F2F; letter-spacing: 0.05em; pointer-events: none; z-index: 100; }
+.reveal ul { list-style: none; padding-left: 0; margin: 12px 0; }
+.reveal ul li { position: relative; padding-left: 25px; margin-bottom: 8px; }
+.reveal ul li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; background: var(--text-color); border-radius: 50%; }
+.reveal ul ul li::before { background: var(--muted-color); width: 6px; height: 6px; }
+.reveal blockquote p { font-size: inherit; }
+.reveal .slides section { height: 100%; display: flex !important; flex-direction: column !important; padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important; box-sizing: border-box; text-align: left; }
+.reveal .slides section > .content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: var(--content-gap); text-align: left; }
+.reveal .slides section.section-divider { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; text-align: center; }
+.reveal .slides section.section-divider h1 { font-size: 54pt; text-align: center; }
+.reveal .slides section.section-divider p { font-size: 20pt; color: var(--muted-color); }
+.reveal .slides section.section-divider .chapter-badge { font-size: 16pt; color: var(--secondary-color); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 20px; }
+.text-lg { font-size: 20pt !important; } .text-xl { font-size: 22pt !important; } .text-2xl { font-size: 26pt !important; }
+.text-muted { color: var(--muted-color) !important; }
+.reveal blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 16px 0; font-style: italic; background: none; box-shadow: none; width: 100%; max-width: none; }
+.card { background: #F4F9F9; border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 20px 24px; }
+.card h3, .card h4 { margin-top: 0; color: var(--secondary-color); }
+.card-accent { border-left: 5px solid var(--accent-color); background: #FFF4F3; }
+.card-primary { border-left: 5px solid var(--primary-color); }
+.flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.flow .step { background: var(--secondary-color); color: #fff; border-radius: 6px; padding: 10px 18px; font-weight: 600; font-size: 18pt; white-space: nowrap; }
+.flow .step.event { background: var(--accent-color); }
+.flow .arrow { color: var(--muted-color); font-size: 18pt; }
+.pill { display: inline-block; background: var(--primary-color); color: #fff; border-radius: 999px; padding: 3px 14px; font-size: 14pt; font-weight: 600; margin-right: 8px; }
+table.simple { border-collapse: collapse; width: 100%; }
+table.simple th, table.simple td { border: 1px solid #DCEBEB; padding: 8px 12px; font-size: 16pt; text-align: left; }
+table.simple th { background: var(--secondary-color); color: #fff; }
+table.simple tr:nth-child(even) { background: #F4F9F9; }
+pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: border-box !important; }
+.reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: 1 !important; }
+.reveal pre code, .reveal .hljs { color: #ffffff !important; }
+.reveal .hljs td { color: #ffffff !important; }
+.reveal .content pre + p, .reveal .content pre + div { margin-top: 20px; }
+.reveal .hljs-ln { table-layout: fixed; width: 100%; }
+.reveal .hljs-ln-numbers { width: 2.4em; }
+.reveal .hljs-ln-code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
+.footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
+.mapping-row { display: flex; align-items: center; gap: 20px; margin-bottom: 16px; }
+.mapping-row .box { flex: 1; padding: 14px 18px; border-radius: 6px; font-size: 17pt; text-align: center; }
+.mapping-row .from { background: #E5F2F2; border: 1px solid var(--primary-color); }
+.mapping-row .to { background: #FFF0EF; border: 1px solid var(--accent-color); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section id="divider-title" class="section-divider" data-state="is-section-divider">
+        <div class="chapter-badge">STUDY WEB FORMS &nbsp;|&nbsp; 第2章 / 全8章</div>
+        <h1>サーバーコントロール</h1>
+        <p>runat="server" が生む「サーバー側から触れる HTML」</p>
+      </section>
+
+      <section id="goals">
+        <h2><i class="fa-solid fa-flag-checkered"></i> 本日のゴール</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li><code>runat="server"</code> を付けたコントロールが、コードビハインドから同名プロパティとして扱えることを説明できる</li>
+            <li>サーバーコントロールが最終的に<strong>普通の HTML タグ</strong>に変換されることを、実際のレンダリング結果で確認する</li>
+            <li><code>Server.HtmlEncode</code> による基本的な XSS 対策の考え方を説明できる</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="recap">
+        <h2><i class="fa-solid fa-rotate-left"></i> 前章の振り返り</h2>
+        <div class="content">
+          <blockquote>第1章:Page は毎リクエストで作り直され、決まった順序でイベントが実行される</blockquote>
+          <p class="text-lg">今回は「そのPageの中で、コードから触っている部品(コントロール)の正体」を見ていきます。</p>
+        </div>
+      </section>
+
+      <section id="concept">
+        <h2><i class="fa-solid fa-diagram-project"></i> コントロールの正体</h2>
+        <div class="content">
+          <div class="mapping-row">
+            <div class="box from"><code>&lt;asp:Label runat="server"&gt;</code></div>
+            <div style="font-size:22pt; color: var(--muted-color);"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="box to"><code>&lt;span&gt;...&lt;/span&gt;</code></div>
+          </div>
+          <div class="mapping-row">
+            <div class="box from"><code>&lt;asp:TextBox runat="server"&gt;</code></div>
+            <div style="font-size:22pt; color: var(--muted-color);"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="box to"><code>&lt;input type="text"&gt;</code></div>
+          </div>
+          <ul class="text-lg" style="margin-top: 20px;">
+            <li><code>runat="server"</code> が付いた要素だけが、コードビハインドから <strong>同じIDのプロパティ</strong>として参照できる</li>
+            <li>Web Forms の ID は、最終的な HTML の <code>id</code> 属性にそのまま(または命名規則に沿って)反映される</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="code-markup">
+        <h2><i class="fa-solid fa-code"></i> コードで確認①:マークアップ</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">02_ServerControls.aspx</span></p>
+          <pre><code class="language-html" data-line-numbers>&lt;asp:Label ID="NameLabel" runat="server"
+    AssociatedControlID="NameTextBox" Text="名前" /&gt;
+&lt;asp:TextBox ID="NameTextBox" runat="server" /&gt;
+&lt;asp:Button ID="ReflectButton" runat="server"
+    Text="ラベルに反映" OnClick="ReflectButton_Click" /&gt;
+&lt;asp:Label ID="ResultLabel" runat="server"
+    Text="ここに結果が表示されます" /&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="code-behind">
+        <h2><i class="fa-solid fa-code"></i> コードで確認②:コードビハインド</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">02_ServerControls.aspx.cs</span></p>
+          <pre><code class="language-csharp" data-line-numbers>protected void ReflectButton_Click(object sender, EventArgs e)
+{
+    ResultLabel.Text = string.IsNullOrWhiteSpace(NameTextBox.Text)
+        ? "未入力です。TextBox.Text は空です。"
+        : $"こんにちは、{Server.HtmlEncode(NameTextBox.Text)} さん。" +
+          "TextBox.Text を Label.Text に反映しました。";
+}</code></pre>
+          <p class="text-lg" style="margin-top: 12px;"><code>NameTextBox</code> / <code>ResultLabel</code> はマークアップの ID がそのままプロパティ名になっている点に注目</p>
+        </div>
+      </section>
+
+      <section id="security">
+        <h2><i class="fa-solid fa-shield-halved"></i> セキュリティの基本:HtmlEncode</h2>
+        <div class="content">
+          <div class="card card-accent">
+            <h4><i class="fa-solid fa-bug"></i> もし HtmlEncode しなかったら</h4>
+            <p class="text-lg">入力値をそのまま HTML に埋め込むと、<code>&lt;script&gt;</code> タグなどが実行されてしまう(XSS)おそれがあります。</p>
+          </div>
+          <ul class="text-lg" style="margin-top: 20px;">
+            <li><code>Server.HtmlEncode</code> は <code>&lt;</code> <code>&gt;</code> <code>&amp;</code> などを無害な文字列に変換する</li>
+            <li>ユーザー入力を画面に表示する処理では、基本的に必ず通す</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="demo">
+        <h2><i class="fa-solid fa-display"></i> デモで確認するポイント</h2>
+        <div class="content">
+          <table class="simple">
+            <tr><th>いつ</th><th>どこを見る</th><th>何が分かるか</th></tr>
+            <tr><td>「ラベルに反映」押下後</td><td>結果ラベルの文言</td><td>ReflectButton_Click が TextBox の値を読み取り Label に書き込んでいる</td></tr>
+            <tr><td>ブラウザの「ページのソースを表示」</td><td>出力された HTML タグ</td><td>asp:Label → &lt;span&gt;、asp:TextBox → &lt;input&gt; に変換されている</td></tr>
+            <tr><td>HTML タグの id 属性</td><td><code>id="NameTextBox"</code> など</td><td>Web Forms の ID が HTML の id にそのまま反映されている</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="pitfalls">
+        <h2><i class="fa-solid fa-triangle-exclamation"></i> よくある誤解・注意点</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>「サーバーコントロール」という特別な実行モデルがあるわけではない → <strong>最終的にはただの HTML</strong></li>
+            <li><code>runat="server"</code> を忘れると、コードビハインドから参照できない普通の HTML タグになる</li>
+            <li>ユーザー入力を表示するときは HtmlEncode を忘れずに</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2><i class="fa-solid fa-check-double"></i> まとめ</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li><code>runat="server"</code> の要素はコードビハインドから同じ ID のプロパティとして操作できる</li>
+            <li>レンダリング結果は最終的に普通の HTML(<code>&lt;span&gt;</code> / <code>&lt;input&gt;</code> など)</li>
+            <li>ユーザー入力の表示には <code>Server.HtmlEncode</code> を使う</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2><i class="fa-solid fa-arrow-right"></i> 次回予告</h2>
+        <div class="content">
+          <div class="card card-primary">
+            <h4>第3章:PostBack とイベント処理</h4>
+            <p class="text-lg">ボタンを押したときに「同じページへ再送信」される仕組みと、<code>IsPostBack</code> の使い方を見ていきます。</p>
+          </div>
+        </div>
+        <div class="footer-tag">StudyWebForms — Chapter 02 / 08</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280, height: 720, margin: 0,
+      controls: true, progress: true, slideNumber: 'c/t', hash: true,
+      transition: 'slide', center: false,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>

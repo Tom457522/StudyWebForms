@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms.Chapters
 {
@@ -8,7 +8,7 @@ namespace StudyWebForms.Chapters
         {
             ResultLabel.Text = string.IsNullOrWhiteSpace(NameTextBox.Text)
                 ? "未入力です。TextBox.Text は空です。"
-                : $"こんにちは、{Server.HtmlEncode(NameTextBox.Text)} さん。TextBox.Text を Label.Text に反映しました。";
+                : string.Format("こんにちは、{0} さん。TextBox.Text を Label.Text に反映しました。", Server.HtmlEncode(NameTextBox.Text));
         }
     }
 }

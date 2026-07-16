@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(rm -f \"C:/Users/ishida-t/AppData/Local/Temp/claude/d--10-Study-StudyWebForms/9ac2948c-3cf7-4fc9-ad95-48bbcf8e7acb/scratchpad/revealjs-deps/\"*.png)",
+      "Bash(rm -f \"C:/Users/ishida-t/AppData/Local/Temp/claude/d--10-Study-StudyWebForms/9ac2948c-3cf7-4fc9-ad95-48bbcf8e7acb/scratchpad/revealjs-deps/\"*.mjs)",
+      "Bash(rm -f \"C:/Users/ishida-t/AppData/Local/Temp/claude/d--10-Study-StudyWebForms/9ac2948c-3cf7-4fc9-ad95-48bbcf8e7acb/scratchpad/revealjs-deps/\"*.json)"
+    ]
+  }
+}

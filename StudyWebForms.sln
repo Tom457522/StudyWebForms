@@ -2,7 +2,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StudyWebForms", "StudyWebForms", "{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StudyWebForms", "StudyWebForms\", "{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_62388"
+		Debug.AspNetCompiler.PhysicalPath = "StudyWebForms\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62388\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_62388"
+		Release.AspNetCompiler.PhysicalPath = "StudyWebForms\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_62388\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "62388"
+		SlnRelativePath = "StudyWebForms\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,5 +33,11 @@ Global
 		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E5D1B1C-8F5E-4F0A-9B31-5A4D2A8A7A10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3F1776E-8320-4A08-A063-F1710FCDD19A}
 	EndGlobalSection
 EndGlobal

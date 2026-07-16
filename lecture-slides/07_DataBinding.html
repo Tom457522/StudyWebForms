@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第7章 データバインド</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+JP:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --background-color: #ffffff; --section-divider-bg: #ffffff;
+  --heading-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --body-font: "IBM Plex Sans JP", "Meiryo", sans-serif;
+  --base-font-size: 32px; --text-size: 18pt; --h1-size: 48pt; --h2-size: 34pt; --h3-size: 22pt; --footnote-size: 11pt;
+  --primary-color: #5EA8A7; --secondary-color: #277884; --accent-color: #FE4447;
+  --text-color: #222; --muted-color: #666; --line-color: #333;
+  --slide-padding: 60px; --slide-padding-top: 40px; --content-gap: 24px; --box-radius: 8px;
+}
+.reveal { font-family: var(--body-font); font-size: var(--base-font-size); }
+.reveal strong, .reveal b { font-weight: bold; }
+.reveal-viewport { background-color: var(--background-color); }
+.reveal-viewport.is-section-divider .slide-background.present { background-color: var(--section-divider-bg) !important; }
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 { font-family: var(--heading-font); color: var(--text-color); font-weight: 600; line-height: 1.2; }
+.reveal h1 { font-size: var(--h1-size); } .reveal h2 { font-size: var(--h2-size); margin-bottom: 0; } .reveal h3 { font-size: var(--h3-size); }
+.reveal p, .reveal li, .reveal td, .reveal th, .reveal blockquote { font-size: var(--text-size); color: var(--text-color); line-height: 1.5; }
+.reveal .slides section::after { content: 'CONFIDENTIAL'; position: absolute; top: 12px; right: 20px; font-size: 10pt; font-weight: 700; color: #D32F2F; letter-spacing: 0.05em; pointer-events: none; z-index: 100; }
+.reveal ul { list-style: none; padding-left: 0; margin: 12px 0; }
+.reveal ul li { position: relative; padding-left: 25px; margin-bottom: 8px; }
+.reveal ul li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; background: var(--text-color); border-radius: 50%; }
+.reveal ul ul li::before { background: var(--muted-color); width: 6px; height: 6px; }
+.reveal blockquote p { font-size: inherit; }
+.reveal .slides section { height: 100%; display: flex !important; flex-direction: column !important; padding: var(--slide-padding-top) var(--slide-padding) var(--slide-padding) var(--slide-padding) !important; box-sizing: border-box; text-align: left; }
+.reveal .slides section > .content { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; padding-top: var(--content-gap); text-align: left; }
+.reveal .slides section.section-divider { display: flex !important; flex-direction: column !important; justify-content: center !important; align-items: center !important; text-align: center; }
+.reveal .slides section.section-divider h1 { font-size: 54pt; text-align: center; }
+.reveal .slides section.section-divider p { font-size: 20pt; color: var(--muted-color); }
+.reveal .slides section.section-divider .chapter-badge { font-size: 16pt; color: var(--secondary-color); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 20px; }
+.text-lg { font-size: 20pt !important; } .text-xl { font-size: 22pt !important; } .text-2xl { font-size: 26pt !important; }
+.text-muted { color: var(--muted-color) !important; }
+.reveal blockquote { border-left: 4px solid var(--primary-color); padding-left: 20px; margin: 16px 0; font-style: italic; background: none; box-shadow: none; width: 100%; max-width: none; }
+.card { background: #F4F9F9; border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 20px 24px; }
+.card h3, .card h4 { margin-top: 0; color: var(--secondary-color); }
+.card-accent { border-left: 5px solid var(--accent-color); background: #FFF4F3; }
+.card-primary { border-left: 5px solid var(--primary-color); }
+.flow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.flow .step { background: var(--secondary-color); color: #fff; border-radius: 6px; padding: 10px 18px; font-weight: 600; font-size: 18pt; white-space: nowrap; }
+.flow .step.event { background: var(--accent-color); }
+.flow .arrow { color: var(--muted-color); font-size: 18pt; }
+.pill { display: inline-block; background: var(--primary-color); color: #fff; border-radius: 999px; padding: 3px 14px; font-size: 14pt; font-weight: 600; margin-right: 8px; }
+table.simple { border-collapse: collapse; width: 100%; }
+table.simple th, table.simple td { border: 1px solid #DCEBEB; padding: 8px 12px; font-size: 16pt; text-align: left; }
+table.simple th { background: var(--secondary-color); color: #fff; }
+table.simple tr:nth-child(even) { background: #F4F9F9; }
+pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: border-box !important; }
+.reveal .hljs.has-highlights tr:not(.highlight-line) { opacity: 1 !important; }
+.reveal pre code, .reveal .hljs { color: #ffffff !important; }
+.reveal .hljs td { color: #ffffff !important; }
+.reveal .content pre + p, .reveal .content pre + div { margin-top: 20px; }
+.reveal .hljs-ln { table-layout: fixed; width: 100%; }
+.reveal .hljs-ln-numbers { width: 2.4em; }
+.reveal .hljs-ln-code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
+.footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section id="divider-title" class="section-divider" data-state="is-section-divider">
+        <div class="chapter-badge">STUDY WEB FORMS &nbsp;|&nbsp; 第7章 / 全8章</div>
+        <h1>GridView とデータバインド</h1>
+        <p>一覧画面と Repository パターンの入り口</p>
+      </section>
+
+      <section id="goals">
+        <h2><i class="fa-solid fa-flag-checkered"></i> 本日のゴール</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>GridView に <code>List&lt;T&gt;</code> をバインドして一覧表示できることを説明できる</li>
+            <li>マークアップ(列定義)とコードビハインド(データ供給)が分離されている意味を理解する</li>
+            <li>Repository パターンにより、画面側を変えずにデータ取得元を差し替えられることを理解する</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="recap">
+        <h2><i class="fa-solid fa-rotate-left"></i> ここまでの積み上げ</h2>
+        <div class="content">
+          <blockquote>第3章:<code>if (!IsPostBack)</code> パターン / 第6章:入力検証。今回はこれらを組み合わせて「検索できる一覧画面」を作ります。</blockquote>
+        </div>
+      </section>
+
+      <section id="concept">
+        <h2><i class="fa-solid fa-table"></i> マークアップとコードの分離</h2>
+        <div class="content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+            <div class="card card-primary">
+              <h4><i class="fa-solid fa-code"></i> マークアップ側(.aspx)</h4>
+              <p class="text-lg">列の見た目(ヘッダー・並び順)を <code>BoundField</code> で宣言</p>
+            </div>
+            <div class="card card-accent">
+              <h4><i class="fa-solid fa-database"></i> コードビハインド側(.aspx.cs)</h4>
+              <p class="text-lg"><code>DataSource</code> に何を渡すかを決める(今はList、将来はDB)</p>
+            </div>
+          </div>
+          <p class="text-lg" style="margin-top: 20px;"><code>App_Code/Course.cs</code> のプロパティ名(Id, Title, Category, DurationMinutes)が、そのまま <code>DataField</code> と対応する</p>
+        </div>
+      </section>
+
+      <section id="code-markup">
+        <h2><i class="fa-solid fa-code"></i> コードで確認①:マークアップ</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">07_DataBinding.aspx</span></p>
+          <pre><code class="language-html" data-line-numbers>&lt;asp:GridView ID="CourseGridView" runat="server" AutoGenerateColumns="False"&gt;
+    &lt;Columns&gt;
+        &lt;asp:BoundField DataField="Id" HeaderText="ID" /&gt;
+        &lt;asp:BoundField DataField="Title" HeaderText="タイトル" /&gt;
+        &lt;asp:BoundField DataField="Category" HeaderText="カテゴリ" /&gt;
+        &lt;asp:BoundField DataField="DurationMinutes" HeaderText="所要時間(分)" /&gt;
+    &lt;/Columns&gt;
+&lt;/asp:GridView&gt;</code></pre>
+        </div>
+      </section>
+
+      <section id="code-behind-1">
+        <h2><i class="fa-solid fa-code"></i> コードで確認②:コードビハインド(前半)</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">07_DataBinding.aspx.cs</span></p>
+          <pre><code class="language-csharp" data-line-numbers>protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        BindGrid();
+    }
+}
+
+protected void SearchButton_Click(object sender, EventArgs e)
+{
+    BindGrid();
+}</code></pre>
+        </div>
+      </section>
+
+      <section id="code-behind-2">
+        <h2><i class="fa-solid fa-code"></i> コードで確認②:コードビハインド(後半)</h2>
+        <div class="content">
+          <p class="text-lg"><span class="pill">07_DataBinding.aspx.cs</span></p>
+          <pre><code class="language-csharp" data-line-numbers>private void BindGrid()
+{
+    CourseGridView.DataSource = CourseRepository.Search(KeywordTextBox.Text);
+    CourseGridView.DataBind();
+}</code></pre>
+          <p class="text-lg" style="margin-top: 16px;">初回表示・検索ボタンのどちらから呼ばれても、最終的にはこの <code>BindGrid()</code> 一本に集約されている</p>
+        </div>
+      </section>
+
+      <section id="repository">
+        <h2><i class="fa-solid fa-layer-group"></i> Repository パターン:将来 SQL Server に差し替える</h2>
+        <div class="content">
+          <div class="flow" style="justify-content: center; margin: 20px 0;">
+            <div class="step">GridView</div>
+            <div class="arrow">←</div>
+            <div class="step event">CourseRepository.Search()</div>
+            <div class="arrow">←</div>
+            <div class="step">今:固定List / 将来:SQL Server</div>
+          </div>
+          <p class="text-lg">今は <code>App_Code/CourseRepository.cs</code> が固定データを返しているだけ。実案件では、この中身だけ SQL Server への SELECT に差し替えれば、<strong>画面側(GridView)のコードは無修正</strong>で済む — これが第8章につながる設計。</p>
+        </div>
+      </section>
+
+      <section id="demo">
+        <h2><i class="fa-solid fa-display"></i> デモで確認するポイント</h2>
+        <div class="content">
+          <table class="simple">
+            <tr><th>いつ</th><th>どこを見る</th><th>何が分かるか</th></tr>
+            <tr><td>初回表示</td><td>GridView の行数</td><td><code>!IsPostBack</code> のときだけ BindGrid() を呼んでいる</td></tr>
+            <tr><td>「Web」で検索</td><td>絞り込まれた行数</td><td>CourseRepository.Search がキーワードでフィルタしている</td></tr>
+            <tr><td>キーワードを空にして検索</td><td>全4件に戻るか</td><td>Search が空文字なら全件返す実装になっている</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section id="pitfalls">
+        <h2><i class="fa-solid fa-triangle-exclamation"></i> よくある誤解・注意点</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li><code>DataBind()</code> を呼び忘れると、DataSource を設定しても画面に反映されない</li>
+            <li>検索のたびに全件から絞り込んでいる(大量データでは非効率 → 実案件では DB 側で絞り込む)</li>
+            <li><code>AutoGenerateColumns="False"</code> によって、表示したい列だけを明示的に制御している</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="summary">
+        <h2><i class="fa-solid fa-check-double"></i> まとめ</h2>
+        <div class="content">
+          <ul class="text-lg">
+            <li>GridView は <code>DataSource</code> + <code>DataBind()</code> で一覧表示する</li>
+            <li>列定義(マークアップ)とデータ供給(コードビハインド)は分離されている</li>
+            <li>Repository パターンにより、データ取得元を差し替えても画面側は変更不要</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="next">
+        <h2><i class="fa-solid fa-arrow-right"></i> 次回予告</h2>
+        <div class="content">
+          <div class="card card-primary">
+            <h4>第8章:IIS / アプリケーションプール / SQL Server</h4>
+            <p class="text-lg">ここまで扱ってきたすべての仕組みが、実際にはどんなインフラ構成の上で動いているのかを見ていきます(最終章)。</p>
+          </div>
+        </div>
+        <div class="footer-tag">StudyWebForms — Chapter 07 / 08</div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280, height: 720, margin: 0,
+      controls: true, progress: true, slideNumber: 'c/t', hash: true,
+      transition: 'slide', center: false,
+      plugins: [ RevealHighlight ]
+    });
+  </script>
+</body>
+</html>

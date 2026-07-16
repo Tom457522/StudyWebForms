@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms.Chapters
 {
@@ -27,7 +27,7 @@ namespace StudyWebForms.Chapters
             var memo = ViewState["Memo"] as string;
             ViewStateLabel.Text = string.IsNullOrEmpty(memo)
                 ? "ViewState[\"Memo\"] は未設定です。"
-                : $"ViewState[\"Memo\"] = {Server.HtmlEncode(memo)}";
+                : string.Format("ViewState[\"Memo\"] = {0}", Server.HtmlEncode(memo));
         }
     }
 }

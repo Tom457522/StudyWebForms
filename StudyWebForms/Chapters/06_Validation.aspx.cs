@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 namespace StudyWebForms.Chapters
 {
@@ -12,7 +12,10 @@ namespace StudyWebForms.Chapters
                 return;
             }
 
-            ResultLabel.Text = $"登録できます。Email={Server.HtmlEncode(EmailTextBox.Text)}, Age={Server.HtmlEncode(AgeTextBox.Text)}";
+            ResultLabel.Text = string.Format(
+                "登録できます。Email={0}, Age={1}",
+                Server.HtmlEncode(EmailTextBox.Text),
+                Server.HtmlEncode(AgeTextBox.Text));
         }
     }
 }
