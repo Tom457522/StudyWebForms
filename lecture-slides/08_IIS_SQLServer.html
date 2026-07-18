@@ -70,6 +70,17 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
 .recap-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
 .recap-grid .ritem { border: 1px solid #DCEBEB; border-radius: 6px; padding: 10px 16px; font-size: 15pt; }
 .recap-grid .ritem strong { color: var(--secondary-color); }
+
+.term-def { background: #F9F4F9; border-left: 4px solid var(--secondary-color); padding: 12px 16px; margin-bottom: 12px; border-radius: 4px; }
+.term-def .term { font-weight: 600; color: var(--secondary-color); font-size: 17pt; }
+.term-def .definition { font-size: 16pt; margin-top: 4px; }
+
+.infrastructure-box { background: #F4F9F9; border-left: 4px solid var(--primary-color); padding: 12px 14px; margin: 10px 0; border-radius: 4px; }
+
+.layer-stack { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.layer-stack .layer { background: var(--secondary-color); color: #fff; padding: 12px 20px; border-radius: 4px; min-width: 280px; text-align: center; font-weight: 600; font-size: 16pt; }
+.layer-stack .layer.client { background: var(--primary-color); }
+.layer-stack .layer.db { background: var(--accent-color); }
   </style>
 </head>
 <body>
@@ -106,6 +117,24 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
             <div class="ritem"><strong>第7章</strong> GridViewとRepositoryパターン</div>
           </div>
           <p class="text-lg" style="margin-top: 16px;">これら全部が、実は<strong>1つのプロセス(w3wp.exe)</strong>の中で動いています。</p>
+        </div>
+      </section>
+
+      <section id="definitions">
+        <h2><i class="fa-solid fa-book"></i> 定義:インフラストラクチャ層の概念</h2>
+        <div class="content">
+          <div class="term-def">
+            <span class="term">IIS(インターネット インフォメーション サービス):</span>
+            <div class="definition">Windows サーバー上の Web サーバーソフトウェア。HTTP リクエストを受け取り、ASP.NET ランタイムに処理を委譲する。複数の「サイト」や「アプリケーション」を管理できる。</div>
+          </div>
+          <div class="term-def">
+            <span class="term">アプリケーションプール(AppPool):</span>
+            <div class="definition">IIS 上で Web アプリケーション(この場合 Web Forms)が動作するプロセス(w3wp.exe)。複数のアプリケーションが同じプールを共有したり、独立したプールで分離したりできる。リサイクル設定で定期的に再起動される。</div>
+          </div>
+          <div class="term-def">
+            <span class="term">SQL Server:</span>
+            <div class="definition">マイクロソフトのリレーショナルデータベース管理システム(RDBMS)。Web Forms アプリケーションは接続文字列を使って SQL Server に接続し、データを読み書きする。</div>
+          </div>
         </div>
       </section>
 

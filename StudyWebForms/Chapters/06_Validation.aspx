@@ -7,32 +7,34 @@
         <h2>06. 入力検証</h2>
         <p>Web Forms には <span class="code-note">RequiredFieldValidator</span> などの検証コントロールがあり、サーバー側に処理を送る前(場合によっては JavaScript でブラウザ側でも)に入力内容をチェックできます。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>何も入力せずに「登録」ボタンを押し、どんなエラーが出るか確認する</li>
-                <li>メールアドレス欄に「abc」のような不正な形式を入力して「登録」を押し、エラーメッセージを確認する</li>
-                <li>年齢欄に「200」のような範囲外の値を入力して「登録」を押し、エラーメッセージを確認する</li>
-                <li>正しい値(例: メール = test@example.com、年齢 = 30)を入力して「登録」を押し、結果ラベルにメッセージが表示されることを確認する</li>
+                <li><strong>何も入力せずに「登録」を押す</strong> → Validator のエラーメッセージが赤い文字で表示される</li>
+                <li><strong>ブラウザの開発者ツール(F12)で、ボタンを右クリック→「検査」を開く</strong> → Validator は JavaScript(クライアント側)でも動作していることに気づく</li>
+                <li><strong>メールアドレスに「abc」と入力</strong> → メール形式の正規表現チェックが失敗することを確認</li>
+                <li><strong>年齢に「200」と入力</strong> → 0〜120 の範囲チェックが失敗することを確認</li>
+                <li><strong>正しい値(test@example.com, 30)を入力して「登録」を押す</strong> → サーバー側の処理が実行されて、結果が表示される</li>
+                <li><strong>気づき: クライアント + サーバー の2段階検証!</strong> セキュリティのため、必ずサーバー側でも確認している</li>
             </ol>
         </div>
 
         <p>
             <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="EmailTextBox" Text="メールアドレス" /><br />
-            <asp:TextBox ID="EmailTextBox" runat="server" />
-            <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="EmailTextBox" ErrorMessage="メールアドレスは必須です。" ForeColor="Red" Display="Dynamic" />
-            <asp:RegularExpressionValidator ID="EmailFormat" runat="server" ControlToValidate="EmailTextBox" ErrorMessage="メール形式で入力してください。" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" ForeColor="Red" Display="Dynamic" />
+            <asp:TextBox ID="EmailTextBox" runat="server" Placeholder="例: test@example.com" />
+            <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="EmailTextBox" ErrorMessage="❌ メールアドレスは必須です。" ForeColor="Red" Display="Dynamic" />
+            <asp:RegularExpressionValidator ID="EmailFormat" runat="server" ControlToValidate="EmailTextBox" ErrorMessage="❌ メール形式で入力してください。(例: user@domain.com)" ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$" ForeColor="Red" Display="Dynamic" />
         </p>
 
         <p>
             <asp:Label ID="AgeLabel" runat="server" AssociatedControlID="AgeTextBox" Text="年齢" /><br />
-            <asp:TextBox ID="AgeTextBox" runat="server" />
-            <asp:RangeValidator ID="AgeRange" runat="server" ControlToValidate="AgeTextBox" Type="Integer" MinimumValue="0" MaximumValue="120" ErrorMessage="0〜120 の数値で入力してください。" ForeColor="Red" Display="Dynamic" />
+            <asp:TextBox ID="AgeTextBox" runat="server" Placeholder="例: 25" />
+            <asp:RangeValidator ID="AgeRange" runat="server" ControlToValidate="AgeTextBox" Type="Integer" MinimumValue="0" MaximumValue="120" ErrorMessage="❌ 0〜120 の範囲で整数で入力してください。" ForeColor="Red" Display="Dynamic" />
         </p>
 
-        <asp:Button ID="SubmitButton" runat="server" Text="登録" OnClick="SubmitButton_Click" />
-        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="Red" />
+        <asp:Button ID="SubmitButton" runat="server" Text="登録" OnClick="SubmitButton_Click" CssClass="button" />
+        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ForeColor="Red" HeaderText="入力エラーの一覧:" />
 
-        <div class="demo-box">
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Label ID="ResultLabel" runat="server" />
         </div>
     </section>

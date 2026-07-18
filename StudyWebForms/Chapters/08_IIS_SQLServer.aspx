@@ -7,15 +7,18 @@
         <h2>08. IIS / アプリケーションプール / SQL Server</h2>
         <p>Web Forms アプリは IIS 上で動作し、アプリケーションプールのプロセス(<span class="code-note">w3wp.exe</span>)内で ASP.NET がページを処理します。ここまでの章で見た ViewState / Session / SQL Server 接続などは、すべてこの構成の上で動いています。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>「環境情報を表示」ボタンを押す</li>
-                <li>表示された MachineName / AppDomain / 接続文字列を確認する</li>
-                <li>IIS Manager(または IIS Express)を開き、このサイトのアプリケーションプールの設定(.NET CLR バージョンや実行 ID)を見比べる</li>
+                <li><strong>「環境情報を表示」ボタンを押す</strong> → 現在のプロセス・マシン・接続文字列が表示される</li>
+                <li><strong>MachineName を確認</strong> → サーバーの名前(複数サーバー環境でどのマシンか判定できる)</li>
+                <li><strong>AppDomain を確認</strong> → このアプリケーションの論理的な境界</li>
+                <li><strong>IIS Manager を開く</strong> → このサイトのアプリケーションプール設定を見比べる</li>
+                <li><strong>接続文字列を確認</strong> → Web.config から読み込まれたデータベース接続情報</li>
+                <li><strong>気づき: 8章の内容は 1〜7章の基盤!</strong> Session/ViewState はすべてこのプロセス内に保存される</li>
             </ol>
         </div>
-        <asp:Button ID="ShowInfoButton" runat="server" Text="環境情報を表示" OnClick="ShowInfoButton_Click" />
-        <div class="demo-box">
+        <asp:Button ID="ShowInfoButton" runat="server" Text="環境情報を表示" OnClick="ShowInfoButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Literal ID="InfoLiteral" runat="server" />
         </div>
     </section>

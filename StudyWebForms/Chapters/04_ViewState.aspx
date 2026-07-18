@@ -7,19 +7,23 @@
         <h2>04. ViewState</h2>
         <p>ViewState は、ページ内コントロールの状態を PostBack 後も保持する仕組みです。Page オブジェクトは PostBack のたびに作り直されますが、ViewState に保存した値は次のリクエストでも復元されます。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>メモ欄に文字を入力し、「ViewState に保存」ボタンを押す</li>
-                <li>ラベルに保存内容が表示されることを確認する</li>
-                <li>ブラウザの「ページのソースを表示」で <span class="code-note">__VIEWSTATE</span> という hidden 項目を探す(長い文字列になっているはず)</li>
-                <li>「ViewState をクリア」ボタンを押して、保存内容が消えることを確認する</li>
+                <li><strong>メモ欄に文字を入力</strong>して、「ViewState に保存」ボタンを押す</li>
+                <li><strong>ラベルに保存内容が表示</strong>されることを確認する(ViewState["Memo"] の値が見える)</li>
+                <li><strong>ページをリロード(F5 キー)</strong>したり、別の操作をしてから戻ってくる → メモが消えずに残っているはず!</li>
+                <li><strong>ブラウザの「ページのソースを表示」</strong>を開いて、<code>&lt;input type="hidden" name="__VIEWSTATE" ...&gt;</code> を探す
+                    <ul><li>ViewState は長い文字列になっている(Base64 エンコード・暗号化)</li>
+                        <li>入力文字列を増やすと、この文字列が長くなる(レスポンスサイズが増える)</li></ul>
+                </li>
+                <li><strong>「ViewState をクリア」ボタン</strong>を押すと、保存内容が消えることを確認する</li>
             </ol>
         </div>
-        <asp:TextBox ID="MemoTextBox" runat="server" TextMode="MultiLine" Rows="4" Columns="50" />
+        <asp:TextBox ID="MemoTextBox" runat="server" TextMode="MultiLine" Rows="4" Columns="50" Placeholder="ここに文字を入力してから「保存」ボタンを押してください" />
         <br />
-        <asp:Button ID="SaveButton" runat="server" Text="ViewState に保存" OnClick="SaveButton_Click" />
-        <asp:Button ID="ClearButton" runat="server" Text="ViewState をクリア" OnClick="ClearButton_Click" />
-        <div class="demo-box">
+        <asp:Button ID="SaveButton" runat="server" Text="ViewState に保存" OnClick="SaveButton_Click" CssClass="button" />
+        <asp:Button ID="ClearButton" runat="server" Text="ViewState をクリア" OnClick="ClearButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Label ID="ViewStateLabel" runat="server" />
         </div>
     </section>

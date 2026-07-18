@@ -7,17 +7,18 @@
         <h2>05. 状態管理</h2>
         <p>Web Forms では、状態をどこに置くかによって「誰と共有されるか」「いつまで残るか」が変わります。目的に応じて ViewState / Session / Application / Cache を使い分けます。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>「Session カウント +1」を何度か押して、数値が増えることを確認する</li>
-                <li>別のブラウザ(または別のブラウザのプライベートウィンドウ)で同じページを開き、Session の値が別々にカウントされることを確認する</li>
-                <li>「Cache に保存」を押して、Cache の値がセットされることを確認する</li>
-                <li>Application[TotalRequests] がページを開くたびに増えることを確認する(全ユーザー共通のカウント)</li>
+                <li><strong>「Session カウント +1」を何度か押す</strong> → このブラウザ内でだけカウンタが増える</li>
+                <li><strong>別のブラウザ(またはプライベートウィンドウ)でこのページを開く</strong> → Session の値が別々にカウントされていることに気づく!</li>
+                <li><strong>「Cache に保存」を押す</strong> → Cache の値が記録される</li>
+                <li><strong>Application[TotalRequests] に注目</strong> → ページを何度も開くたびに(全ユーザー合算で)増える</li>
+                <li><strong>複数のタブ・複数のブラウザで動作の違いを確認</strong> → Session と Application の違いが体感できる</li>
             </ol>
         </div>
-        <asp:Button ID="AddSessionButton" runat="server" Text="Session カウント +1" OnClick="AddSessionButton_Click" />
-        <asp:Button ID="AddCacheButton" runat="server" Text="Cache に保存" OnClick="AddCacheButton_Click" />
-        <div class="demo-box">
+        <asp:Button ID="AddSessionButton" runat="server" Text="Session カウント +1" OnClick="AddSessionButton_Click" CssClass="button" />
+        <asp:Button ID="AddCacheButton" runat="server" Text="Cache に保存" OnClick="AddCacheButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Label ID="StateLabel" runat="server" />
         </div>
     </section>

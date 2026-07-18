@@ -112,6 +112,22 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
 .reveal .hljs-ln-code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
 
 .footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
+
+/* Comparison tables */
+.comparison-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.comparison-col { border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 14px 16px; background: #F4F9F9; }
+.comparison-col h4 { margin-top: 0; color: var(--secondary-color); }
+
+.term-def { background: #F9F4F9; border-left: 4px solid var(--secondary-color); padding: 12px 16px; margin-bottom: 12px; border-radius: 4px; }
+.term-def .term { font-weight: 600; color: var(--secondary-color); font-size: 17pt; }
+.term-def .definition { font-size: 16pt; margin-top: 4px; }
+
+.lifecycle-diagram { background: #F4F9F9; border-radius: var(--box-radius); padding: 20px; margin: 16px 0; }
+.lifecycle-diagram .phase { display: inline-block; background: var(--secondary-color); color: #fff; padding: 10px 14px; border-radius: 4px; margin: 4px; font-weight: 600; }
+
+.architecture-box { border: 2px solid #DCEBEB; border-radius: var(--box-radius); padding: 16px; margin-bottom: 12px; background: #FFFAF5; }
+.architecture-box.web-forms { border-color: var(--primary-color); background: #F4F9F9; }
+.architecture-box h4 { margin-top: 0; color: var(--text-color); }
   </style>
 </head>
 <body>
@@ -138,6 +154,21 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
         </div>
       </section>
 
+      <section id="definitions">
+        <h2><i class="fa-solid fa-book"></i> まず定義:「Page オブジェクト」とは何か</h2>
+        <div class="content">
+          <div class="term-def">
+            <span class="term">Page オブジェクト:</span>
+            <div class="definition">1つのリクエストに対して、IIS / ASP.NET ランタイムが生成する C# クラスの<strong>インスタンス</strong>。このインスタンスの上で、ライフサイクルイベント(Page_Init, Page_Load など)が順番に実行される。</div>
+          </div>
+          <div class="term-def">
+            <span class="term">ライフサイクル:</span>
+            <div class="definition">1つのリクエストが終わるまでの間に、Page が通過する<strong>決まった順序のステージ</strong>。Page_Init → Page_Load → Event → Page_PreRender → Render が常に同じ順序で実行される。</div>
+          </div>
+          <p class="text-lg" style="margin-top: 20px;"><i class="fa-solid fa-info-circle"></i> つまり:毎回 Page は「生まれて」「成長して」「消える」一連の流れを通る</p>
+        </div>
+      </section>
+
       <section id="why">
         <h2><i class="fa-solid fa-lightbulb"></i> なぜここから始めるか</h2>
         <div class="content">
@@ -157,6 +188,47 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
 
       <section id="one-request-one-page">
         <h2><i class="fa-solid fa-arrows-rotate"></i> 大原則:1リクエスト = 1つの Page インスタンス</h2>
+        <div class="content">
+          <div class="flow" style="justify-content: center; margin: 20px 0;">
+            <div class="step"><i class="fa-solid fa-globe"></i> ブラウザ</div>
+            <div class="arrow">→</div>
+            <div class="step">IIS</div>
+            <div class="arrow">→</div>
+            <div class="step event">new Page()</div>
+            <div class="arrow">→</div>
+            <div class="step">HTML 生成</div>
+            <div class="arrow">→</div>
+            <div class="step">破棄</div>
+          </div>
+          <ul class="text-lg">
+            <li>ボタンを押すたびに、この一連の流れが <strong>最初から</strong> 実行される</li>
+            <li>コード内のフィールドやプロパティは、次のリクエストでは初期値に戻る</li>
+            <li>唯一「持ち越せる」のが ViewState / Session などの明示的な状態保存の仕組み(第4〜5章)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="vs-mvc">
+        <h2><i class="fa-solid fa-code-compare"></i> 比較:Web Forms vs MVC / ASP.NET Core</h2>
+        <div class="content">
+          <div class="architecture-box web-forms">
+            <h4><i class="fa-solid fa-cube"></i> Web Forms(このシリーズ)</h4>
+            <p class="text-lg"><strong>設計思想:</strong> デスクトップアプリに近い「イベント駆動」</p>
+            <p class="text-lg"><strong>Page の流れ:</strong> 毎リクエストで <code>new Page() → ライフサイクル → 破棄</code></p>
+            <p class="text-lg"><strong>状態管理:</strong> ViewState(クライアント) / Session(サーバー)が自動化</p>
+          </div>
+          <div class="architecture-box">
+            <h4><i class="fa-solid fa-sitemap"></i> MVC / .NET Core</h4>
+            <p class="text-lg"><strong>設計思想:</strong> HTTP の本質に従う「ステートレス」</p>
+            <p class="text-lg"><strong>Page の流れ:</strong> リクエスト = <code>Controller メソッド 1つの呼び出し</code></p>
+            <p class="text-lg"><strong>状態管理:</strong> Cookie / Session を明示的に操作(自動化されない)</p>
+          </div>
+          <p class="text-lg" style="margin-top: 16px;"><i class="fa-solid fa-arrow-right"></i> Web Forms を理解することで、MVC がなぜそのような設計になったのかが見えてくる</p>
+        </div>
+      </section>
+
+      <section id="one-request-one-page-renamed">
+        <h2><i class="fa-solid fa-arrows-rotate"></i> 大原則再掲:1リクエスト = 1つの Page インスタンス</h2>
         <div class="content">
           <div class="flow" style="justify-content: center; margin: 20px 0;">
             <div class="step"><i class="fa-solid fa-globe"></i> ブラウザ</div>

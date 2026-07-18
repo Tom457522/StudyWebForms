@@ -7,18 +7,19 @@
         <h2>02. サーバーコントロール</h2>
         <p><span class="code-note">asp:TextBox</span> や <span class="code-note">asp:Label</span> のようなサーバーコントロールは、サーバー側の C# コードから操作でき、最終的には普通の HTML タグに変換されて画面に表示されます。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>テキストボックスに好きな文字を入力する</li>
-                <li>「ラベルに反映」ボタンを押す</li>
-                <li>下の結果ラベルにサーバー側で組み立てたメッセージが表示されることを確認する</li>
-                <li>ブラウザの「ページのソースを表示」または開発者ツールで、<span class="code-note">asp:Label</span> や <span class="code-note">asp:TextBox</span> が最終的にどんな HTML タグ(<span class="code-note">&lt;span&gt;</span> や <span class="code-note">&lt;input&gt;</span>)になっているかを確認する</li>
+                <li><strong>テキストボックスに文字を入力</strong> (例: "花子")</li>
+                <li><strong>「ラベルに反映」ボタンを押す</strong> → サーバー側で処理されて、下に結果が表示される</li>
+                <li><strong>気づき: サーバーコントロール → C# コード → サーバー処理 → HTML</strong> という流れ</li>
+                <li><strong>ブラウザの開発者ツール(F12)で「検査」を開く</strong> → <code>&lt;input type="text"&gt;</code> や <code>&lt;span&gt;</code> などの plain HTML になっていることを確認</li>
+                <li><strong>ページのソースを表示して、asp:Label や asp:TextBox の文字列を探す</strong> → 見つからない!(すべて HTML に変換されているから)</li>
             </ol>
         </div>
         <asp:Label ID="NameLabel" runat="server" AssociatedControlID="NameTextBox" Text="名前" />
-        <asp:TextBox ID="NameTextBox" runat="server" />
-        <asp:Button ID="ReflectButton" runat="server" Text="ラベルに反映" OnClick="ReflectButton_Click" />
-        <div class="demo-box">
+        <asp:TextBox ID="NameTextBox" runat="server" Placeholder="ここに何か入力してみてください" />
+        <asp:Button ID="ReflectButton" runat="server" Text="ラベルに反映" OnClick="ReflectButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Label ID="ResultLabel" runat="server" Text="ここに結果が表示されます" />
         </div>
     </section>

@@ -7,18 +7,20 @@
         <h2>01. ページライフサイクル</h2>
         <p>Web Forms は、1回のリクエストごとに Page オブジェクトを新しく作り直し、決まった順番でイベントを実行します。この仕組みを理解しないと、「なぜ毎回同じ処理が動くのか」「なぜ入力値が消えないのか」が分かりにくくなります。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>まずページを開いた直後の「実行ログ」を確認する(初回表示時のイベント順序)</li>
-                <li>「PostBack を発生させる」ボタンを押して、ログがどう増えるかを確認する</li>
-                <li>もう一度ボタンを押して、ログの増え方に規則性があるかを確認する</li>
+                <li><strong>まずページを開く:</strong> ページを開いた直後の「実行ログ」を確認する。実行ログには ① Page_Init → ② Page_Load → ④ Page_PreRender の順序が見える</li>
+                <li><strong>「PostBack を発生させる」ボタンを押す:</strong> ログに新しい行が追加される。新しいインスタンス(異なる ID)で再度ライフサイクルが実行されていることに注目</li>
+                <li><strong>もう一度ボタンを押す:</strong> ボタンクリックのたびに新しい Page インスタンスが作られて、同じ順序でイベントが実行されることを確認</li>
+                <li><strong>重要な気づき:</strong> Page インスタンス ID が変わっているのに、ログが消えない理由を考える → 答え: ViewState に保存されているから!</li>
             </ol>
         </div>
         <asp:Button ID="ReloadButton" runat="server" Text="PostBack を発生させる" CssClass="button" OnClick="ReloadButton_Click" />
     </section>
 
     <section class="card">
-        <h3>実行ログ</h3>
+        <h3>実行ログ(ライフサイクルのトレース)</h3>
+        <p class="text-muted">下のリストは、ページが開かれたときと、ボタンが押されたときのライフサイクルイベントを記録しています。<strong>新しいインスタンスごとにブロック</strong>で分かれています。</p>
         <asp:BulletedList ID="LifecycleLog" runat="server" />
     </section>
 

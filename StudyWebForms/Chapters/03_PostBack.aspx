@@ -7,16 +7,18 @@
         <h2>03. PostBack とイベント処理</h2>
         <p>Web Forms では、ボタン押下などの操作が「同じページへの再送信(PostBack)」として扱われ、サーバー側でイベント処理が実行されます。ブラウザは別ページに遷移せず、同じ画面がサーバーで作り直されて返ってきます。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>「カウントを増やす」ボタンを数回押して、数値が増えていくことを確認する</li>
-                <li>ブラウザの URL が変わらないことを確認する(ページ遷移していない)</li>
-                <li>「リセット」ボタンを押して、カウントが 0 に戻ることを確認する</li>
+                <li><strong>「カウントを増やす」ボタンを数回押す</strong> → 数値が増えていくことと、<code>IsPostBack=True</code> になることを確認</li>
+                <li><strong>ブラウザのアドレスバーを見る</strong> → URL が変わらない!(同じページへの再送信だから)</li>
+                <li><strong>ブラウザの戻るボタンを試す</strong> → 通常のページ遷移ではないため、戻る動作がどう動作するか体験</li>
+                <li><strong>「リセット」ボタンを押す</strong> → 状態が初期化されることを確認</li>
+                <li><strong>デバッグ情報に注目</strong> → IsPostBack の値の変化、PostBack 回数が増えていく様子を観察</li>
             </ol>
         </div>
-        <asp:Button ID="CountButton" runat="server" Text="カウントを増やす" OnClick="CountButton_Click" />
-        <asp:Button ID="ResetButton" runat="server" Text="リセット" OnClick="ResetButton_Click" />
-        <div class="demo-box">
+        <asp:Button ID="CountButton" runat="server" Text="カウントを増やす" OnClick="CountButton_Click" CssClass="button" />
+        <asp:Button ID="ResetButton" runat="server" Text="リセット" OnClick="ResetButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 20px;">
             <asp:Label ID="CountLabel" runat="server" />
         </div>
     </section>

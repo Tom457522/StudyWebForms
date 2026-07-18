@@ -68,7 +68,16 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
 .footer-tag { position: absolute; bottom: 15px; left: var(--slide-padding); font-size: var(--footnote-size); color: var(--muted-color); }
 .validator-card { border: 1px solid #DCEBEB; border-radius: var(--box-radius); padding: 14px 18px; margin-bottom: 12px; }
 .validator-card code { color: var(--secondary-color); font-weight: 600; }
-</style>
+
+.term-def { background: #F9F4F9; border-left: 4px solid var(--secondary-color); padding: 12px 16px; margin-bottom: 12px; border-radius: 4px; }
+.term-def .term { font-weight: 600; color: var(--secondary-color); font-size: 17pt; }
+.term-def .definition { font-size: 16pt; margin-top: 4px; }
+
+.validation-flow { background: #F4F9F9; border-radius: var(--box-radius); padding: 14px 16px; margin: 8px 0; border-left: 4px solid var(--primary-color); }
+
+.security-highlight { background: #FFF4F3; border-left: 4px solid var(--accent-color); padding: 12px 14px; border-radius: 4px; margin: 12px 0; }
+.security-highlight h4 { margin-top: 0; color: var(--accent-color); }
+  </style></style>
 </head>
 <body>
   <div class="reveal">
@@ -95,6 +104,39 @@ pre code { font-size: 15pt !important; line-height: 1.4 !important; box-sizing: 
         <h2><i class="fa-solid fa-rotate-left"></i> ここまでの流れ</h2>
         <div class="content">
           <blockquote>第2〜5章:コントロールの値を読み書きし、状態を保持する方法を見てきた。では「その値が正しいか」はどこでチェックするのか?</blockquote>
+        </div>
+      </section>
+
+      <section id="definitions">
+        <h2><i class="fa-solid fa-book"></i> 定義:「入力検証」の2段階</h2>
+        <div class="content">
+          <div class="term-def">
+            <span class="term">Validator コントロール:</span>
+            <div class="definition">入力値が要件を満たしているかをチェックする Web Forms のコンポーネント。<code>RequiredFieldValidator</code> / <code>RangeValidator</code など。ブラウザ側(JavaScript)とサーバー側(C#)の両方で実行される。</div>
+          </div>
+          <div class="term-def">
+            <span class="term">Page.IsValid:</span>
+            <div class="definition">すべての Validator がチェックに合格したかを示す bool プロパティ。サーバー側の処理を行う前に「必ず」確認する必要がある。</div>
+          </div>
+          <p class="text-lg" style="margin-top: 20px;"><i class="fa-solid fa-lightbulb"></i> つまり:「正しい入力だけを処理する」という防衛線を、ブラウザとサーバーの両方に引く</p>
+        </div>
+      </section>
+
+      <section id="two-stage-validation">
+        <h2><i class="fa-solid fa-shield-halved"></i> 入力検証の2段階</h2>
+        <div class="content">
+          <div class="validation-flow">
+            <strong style="color: var(--secondary-color);">ステージ1 - クライアント側(JavaScript)</strong>
+            <p class="text-lg">ユーザーがデータを入力・送信するときに、<strong>即座に</strong>チェック。UX 改善(エラーを素早く表示)</p>
+          </div>
+          <div class="validation-flow">
+            <strong style="color: var(--secondary-color);">ステージ2 - サーバー側(C#)</strong>
+            <p class="text-lg"><code>Page.IsValid</code> で確認してから実際の処理(データベース保存など)を実行。<strong>最終防衛線</strong>— JavaScript は外部から改ざん可能</p>
+          </div>
+          <div class="security-highlight">
+            <h4><i class="fa-solid fa-triangle-exclamation"></i> 重要なセキュリティ原則</h4>
+            <p class="text-lg">「ブラウザの検証」だけを信用してはいけない。悪意あるユーザーはブラウザの JavaScript を無効化したり、直接サーバーに不正データを送信できる。</p>
+          </div>
         </div>
       </section>
 

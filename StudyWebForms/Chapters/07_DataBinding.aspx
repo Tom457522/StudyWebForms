@@ -7,21 +7,26 @@
         <h2>07. GridView とデータバインド</h2>
         <p>GridView に List や DataTable をバインドすると、一覧画面を簡単に作成できます。列の定義(マークアップ)とデータの中身(コードビハインド)が分離されているのがポイントです。</p>
         <div class="demo-box">
-            <strong>操作手順:</strong>
+            <strong>✔ 体験的な学習フロー:</strong>
             <ol>
-                <li>ページを開いた直後に、4件の講座データが一覧表示されることを確認する</li>
-                <li>キーワード欄に「Web」や「SQL」などを入力して「検索」を押し、絞り込まれる件数の変化を確認する</li>
-                <li>キーワード欄を空にして「検索」を押し、全件に戻ることを確認する</li>
+                <li><strong>ページを開く</strong> → GridView に複数件の講座データが自動表示される</li>
+                <li><strong>キーワード欄に「Web」と入力</strong>して「検索」を押す → 該当する講座だけが表示される</li>
+                <li><strong>キーワード欄を空にして「検索」</strong> → 全件に戻る</li>
+                <li><strong>気づき: Repository パターン!</strong> コード側と画面側が独立して、保守性が高い</li>
+                <li><strong>コードを確認</strong> → C#側で List<Course> を用意して、GridView.DataBind() で自動的にテーブルレンダリング</li>
             </ol>
         </div>
-        <asp:TextBox ID="KeywordTextBox" runat="server" />
-        <asp:Button ID="SearchButton" runat="server" Text="検索" OnClick="SearchButton_Click" />
-        <asp:GridView ID="CourseGridView" runat="server" AutoGenerateColumns="False">
+        <asp:TextBox ID="KeywordTextBox" runat="server" Placeholder="検索キーワード (例: Web, SQL)" />
+        <asp:Button ID="SearchButton" runat="server" Text="検索" OnClick="SearchButton_Click" CssClass="button" />
+        <div class="demo-box" style="margin-top: 12px;">
+            <asp:Label ID="SearchResultLabel" runat="server" />
+        </div>
+        <asp:GridView ID="CourseGridView" runat="server" AutoGenerateColumns="False" CssClass="simple">
             <Columns>
-                <asp:BoundField DataField="Id" HeaderText="ID" />
-                <asp:BoundField DataField="Title" HeaderText="タイトル" />
+                <asp:BoundField DataField="Id" HeaderText="ID" ItemStyle-Width="40px" />
+                <asp:BoundField DataField="Title" HeaderText="タイトル" ItemStyle-Width="40%" />
                 <asp:BoundField DataField="Category" HeaderText="カテゴリ" />
-                <asp:BoundField DataField="DurationMinutes" HeaderText="所要時間(分)" />
+                <asp:BoundField DataField="DurationMinutes" HeaderText="所要時間(分)" ItemStyle-HorizontalAlign="Right" />
             </Columns>
         </asp:GridView>
     </section>
